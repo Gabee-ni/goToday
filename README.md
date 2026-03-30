@@ -45,7 +45,7 @@
 
 ### 빌드 & 배포
 - **Maven** (WAR 패키징)
-- **Docker**
+- **Docker + GitHub Actions** 
 - **AWS RDS** (MariaDB)
 
 ---
