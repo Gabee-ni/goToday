@@ -1,0 +1,5 @@
+# Copy to application.properties and configure your environment.
+# Use an existing, writable absolute directory ending in /.
+# On Windows use forward slashes, for example C:/gotoday-data/upload/.
+# On the server use the persistent upload directory, for example /app/upload/.
+upload.path=

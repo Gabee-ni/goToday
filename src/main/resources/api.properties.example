@@ -1,0 +1,12 @@
+# Copy to api.properties and fill in your own API settings.
+# Never commit credentials. Configure redirect URIs for your deployment.
+kakao.rest-api-key=
+kakao.redirect-uri=
+
+naver.client-id=
+naver.client-secret=
+naver.redirect-uri=
+
+# Use your own test credentials for the demo.
+toss.payments.secret-key=
+toss.payments.api-url=
