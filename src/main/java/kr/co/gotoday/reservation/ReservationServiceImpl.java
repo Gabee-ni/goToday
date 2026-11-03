@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 
 import kr.co.gotoday.content.ContentScheduleVO;
 import kr.co.gotoday.content.ContentVO;
-import kr.co.gotoday.payment.PaymentMapper;
 import kr.co.gotoday.payment.PaymentVO;
 import kr.co.gotoday.user.CalendarVO;
 import util.PageInfo;
@@ -27,7 +26,7 @@ public class ReservationServiceImpl implements ReservationService{
 	@Autowired
 	ReservationMapper reservationMapper;
 	@Autowired
-	PaymentMapper paymentMapper;
+	ReservationPaymentService reservationPaymentService;
 	@Autowired
 	TossPaymentClient tossPaymentClient;
 	
@@ -130,7 +129,7 @@ public class ReservationServiceImpl implements ReservationService{
 	                paymentKey, orderId, amount
 	            );
 	        }
-			// DB 저장 (예약 + 결제)-> 트랜잭션
+			// 별도 Spring 빈의 프록시를 통해 예약 + 결제 저장 트랜잭션 실행
 			ReservationVO savedReservation = 
 		            createReservationWithPaymentent(reservationVO, paymentVO);
 			
@@ -238,25 +237,8 @@ public class ReservationServiceImpl implements ReservationService{
 	}
 
 	@Override
-	@Transactional
 	public ReservationVO createReservationWithPaymentent(ReservationVO reservationVO, PaymentVO paymentVO) throws Exception {
-		//예약 상태를 완료로 변경
-		reservationVO.setReservation_status("DONE");
-		// 예약 정보 저장
-		int reservationResult = reservationMapper.createReservation(reservationVO);
-		if(reservationResult <= 0 ) {
-			throw new Exception("에약 정보 저장에 실패했습니다.");
-		}
-		
-		// 결제 정보 저장 
-		paymentVO.setReservation_id(reservationVO.getReservation_id());
-		int paymentResult = paymentMapper.createPayment(paymentVO);//			
-		if (paymentResult ==0) {
-			throw new Exception("결제 정보 저장에 실패했습니다.");
-		}
-		
-		// 저장된 예약 정보 반환
-		return reservationVO;
+		return reservationPaymentService.saveReservationWithPayment(reservationVO, paymentVO);
 	}
 
 	
