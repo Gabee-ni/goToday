@@ -1,0 +1,10 @@
+# Copy to db.properties and fill in your own database settings.
+# Never commit the actual configuration file.
+db.driver=org.mariadb.jdbc.Driver
+db.url=
+db.username=
+db.password=
+
+# Example pool sizes for a small demo; adjust for your database capacity.
+spring.datasource.hikari.maximum-pool-size=3
+spring.datasource.hikari.minimum-idle=1
